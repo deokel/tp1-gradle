@@ -1,0 +1,65 @@
+plugins {
+    id 'java-library'
+    id 'checkstyle'
+}
+allprojects {
+    group = 'org.iut.nantes'
+    version = '0.1.0'
+    compileJava.options.encoding 'UTF-8'
+}
+subprojects {
+    apply plugin: 'java'
+}
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(8)
+    }
+}
+sourceSets {
+    main {
+        java {
+            srcDirs 'src/main/java'
+        }
+    }
+    test {
+        java {
+            srcDirs 'src/test/java'
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation ('org.springframework.ws:spring-ws-core:2.4.0.RELEASE') {
+        transitive = true
+    }
+    implementation 'org.junit.jupiter:junit-jupiter:5.8.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
+
+test {
+    useJUnitPlatform()
+    println 'Tous les tests sont OK'
+}
+
+task A{
+    doLast{
+        println 'ça va?'
+    }
+    doFirst {
+        println 'A'
+        println 'bonjour'
+    }
+    println 'Au revoir'
+}
+task B dependsOn(A) {
+    println 'B'
+    println 'Configuration de B'
+}
+task C dependsOn(B) {
+    println 'C'
+}
